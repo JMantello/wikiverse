@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 import { Page } from './Page';
+import apiURL from '../api';
 
 export const PagesList = ({ pages, view, setView }) => {
 	const [selectedPage, setSelectedPage] = useState(null)
 
-	function pageClick(page) {
-		setSelectedPage(page)
-		setView("Details")
+	function pageComponent(page) {
+		return <Page
+			page={page}
+			view={view}
+			setView={setView}
+			showDetails={async () => pageClick(page)}
+			backToHome={backToHome}
+		/>
+	}
+
+	async function pageClick(page) {
+		// Fetch page to get author and tags
+		try {
+			const res = await fetch(`${apiURL}/wiki/${page.slug}`)
+			const pageData = await res.json()
+			setSelectedPage(pageData)
+			setView("Details")
+		} catch (err) {
+			console.log(`Error fetching page id ${page.id}\n`, err)
+		}
 	}
 
 	function backToHome() {
@@ -14,22 +32,17 @@ export const PagesList = ({ pages, view, setView }) => {
 		setSelectedPage(null)
 	}
 
-	function pageComponent(page) {
-		return <Page
-			page={page}
-			view={view}
-			setView={setView}
-			showDetails={() => pageClick(page)}
-			backToHome={() => backToHome()}
-		/>
-	}
-
 	if (view === "Home") {
 		return <div id="pageList">
 			{pages.map((page) => (pageComponent(page)))}
+			<button onClick={() => setView("Add")}>Add Page</button>
 		</div>
 	}
 
 	if (view === "Details")
 		return pageComponent(selectedPage)
+
+	if (view === "Add") {
+		return <Page view="Add" />
+	}
 } 
