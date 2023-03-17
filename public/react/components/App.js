@@ -5,10 +5,12 @@ import { PagesList } from './PagesList';
 import apiURL from '../api';
 
 export const App = () => {
+	// WikiPages
+	const [pages, setPages] = useState([])
+	// Views: home, details
+	const [view, setView] = useState("Home")
 
-	const [pages, setPages] = useState([]);
-
-	async function fetchPages(){
+	async function fetchPages() {
 		try {
 			const response = await fetch(`${apiURL}/wiki`);
 			const pagesData = await response.json();
@@ -23,10 +25,10 @@ export const App = () => {
 	}, []);
 
 	return (
-		<main>	
-      <h1>WikiVerse</h1>
+		<main>
+			<h1>WikiVerse</h1>
 			<h2>An interesting 📚</h2>
-			<PagesList pages={pages} />
+			<PagesList pages={pages} view={view} setView={setView} />
 		</main>
 	)
 }
