@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Page } from './Page';
 import apiURL from '../api';
 
-export const PagesList = ({ pages, view, setView }) => {
+export const PagesList = ({ view, setView }) => {
+	const [pages, setPages] = useState([])
 	const [selectedPage, setSelectedPage] = useState(null)
+
+	async function fetchPages() {
+		try {
+			const response = await fetch(`${apiURL}/wiki`);
+			const pagesData = await response.json();
+			setPages(pagesData);
+		} catch (err) {
+			console.log("Oh no an error! ", err)
+		}
+	}
+
+	useEffect(() => {
+		fetchPages()
+	}, [])
 
 	function pageComponent(page) {
 		return <Page
@@ -28,6 +43,7 @@ export const PagesList = ({ pages, view, setView }) => {
 	}
 
 	function backToHome() {
+		fetchPages();
 		setView("Home")
 		setSelectedPage(null)
 	}
@@ -43,6 +59,6 @@ export const PagesList = ({ pages, view, setView }) => {
 		return pageComponent(selectedPage)
 
 	if (view === "Add") {
-		return pageComponent(<Page />)
+		return pageComponent()
 	}
 } 

@@ -39,7 +39,7 @@ export const Page = (props) => {
     setInputs(values => ({ ...values, [name]: value }))
   }
 
-  handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     // Post to /wiki
     e.preventDefault();
     // Fetch page to get author and tags
@@ -51,9 +51,8 @@ export const Page = (props) => {
         },
         body: JSON.stringify(inputs)
       })
-      console.log(await res.json())
-      setView("Home")
       setInputs({})
+      backToHome()
     } catch (err) {
       console.log(`Error posting inputs to api`, err)
     }

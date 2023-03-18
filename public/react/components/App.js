@@ -6,29 +6,14 @@ import apiURL from '../api';
 
 export const App = () => {
 	// WikiPages
-	const [pages, setPages] = useState([])
 	// Views: home, details
 	const [view, setView] = useState("Home")
-
-	async function fetchPages() {
-		try {
-			const response = await fetch(`${apiURL}/wiki`);
-			const pagesData = await response.json();
-			setPages(pagesData);
-		} catch (err) {
-			console.log("Oh no an error! ", err)
-		}
-	}
-
-	useEffect(() => {
-		fetchPages();
-	}, []);
 
 	return (
 		<main>
 			<h1>WikiVerse</h1>
 			<h2>An interesting 📚</h2>
-			<PagesList pages={pages} view={view} setView={setView} />
+			<PagesList view={view} setView={setView} />
 		</main>
 	)
 }
