@@ -43,6 +43,6 @@ export const PagesList = ({ pages, view, setView }) => {
 		return pageComponent(selectedPage)
 
 	if (view === "Add") {
-		return <Page view="Add" />
+		return pageComponent(<Page />)
 	}
 } 

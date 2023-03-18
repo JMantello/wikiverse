@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import apiURL from '../api';
 
 export const Page = (props) => {
   const {
@@ -38,11 +39,24 @@ export const Page = (props) => {
     setInputs(values => ({ ...values, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  handleSubmit = async (e) => {
+    // Post to /wiki
     e.preventDefault();
-    // Create object from inputs
-    console.log(inputs)
-    // setInputs({})
+    // Fetch page to get author and tags
+    try {
+      const res = await fetch(`${apiURL}/wiki`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(inputs)
+      })
+      console.log(await res.json())
+      setView("Home")
+      setInputs({})
+    } catch (err) {
+      console.log(`Error posting inputs to api`, err)
+    }
   }
 
   if (view === "Add") {
@@ -68,15 +82,15 @@ export const Page = (props) => {
         <label>Author Name:&nbsp;
           <input
             type="text"
-            name="authorName"
-            value={inputs.authorName || ""}
+            name="name"
+            value={inputs.name || ""}
             onChange={handleChange}
           />
         </label><br /><label>Author Email:&nbsp;
           <input
             type="text"
-            name="authorEmail"
-            value={inputs.authorEmail || ""}
+            name="email"
+            value={inputs.email || ""}
             onChange={handleChange}
           />
         </label><br /><label>Tags (seperated by space):&nbsp;
