@@ -27,18 +27,19 @@ export const PagesList = ({ view, setView }) => {
 			setView={setView}
 			showDetails={async () => pageClick(page)}
 			backToHome={backToHome}
+			deletePage={async () => deletePage(page)}
 		/>
 	}
 
 	async function pageClick(page) {
-		// Fetch page to get author and tags
+		// Re-fetch page to get author and tags
 		try {
 			const res = await fetch(`${apiURL}/wiki/${page.slug}`)
 			const pageData = await res.json()
 			setSelectedPage(pageData)
 			setView("Details")
 		} catch (err) {
-			console.log(`Error fetching page id ${page.id}\n`, err)
+			console.log(`Error fetching page id ${page.slug}\n`, err)
 		}
 	}
 
@@ -46,6 +47,18 @@ export const PagesList = ({ view, setView }) => {
 		fetchPages();
 		setView("Home")
 		setSelectedPage(null)
+	}
+
+	async function deletePage(page) {
+		try {
+			const res = await fetch(`${apiURL}/wiki/${page.slug}`, {
+				method: "DELETE",
+			})
+			console.log("deleted\n", res)
+			backToHome()
+		} catch (err) {
+			console.log(`Error deleting page: ${page.slug}\n`, err)
+		}
 	}
 
 	if (view === "Home") {

@@ -6,7 +6,8 @@ export const Page = (props) => {
     page,
     view, setView,
     showDetails,
-    backToHome
+    backToHome,
+    deletePage
   } = props
 
   if (view === "Home") {
@@ -27,22 +28,20 @@ export const Page = (props) => {
       </p>
       <p>Date Created: {new Date(page.createdAt).toLocaleDateString()}</p>
       <button onClick={backToHome}>Back</button>
+      <button onClick={deletePage}>Delete Page</button>
     </div>
   }
 
-  // Add Page Form
   const [inputs, setInputs] = useState({})
 
-  const handleChange = (e) => {
+  const changeInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs(values => ({ ...values, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
-    // Post to /wiki
+  const postPage = async (e) => {
     e.preventDefault();
-    // Fetch page to get author and tags
     try {
       const res = await fetch(`${apiURL}/wiki`, {
         method: "POST",
@@ -61,13 +60,13 @@ export const Page = (props) => {
   if (view === "Add") {
     return <>
       <h2>Add a Page</h2>
-      <form id="addPageForm" onSubmit={handleSubmit}>
+      <form id="addPageForm" onSubmit={postPage}>
         <label>Title:&nbsp;
           <input
             type="text"
             name="title"
             value={inputs.title || ""}
-            onChange={handleChange}
+            onChange={changeInput}
           />
         </label><br />
         <label>Article Content:&nbsp;
@@ -75,7 +74,7 @@ export const Page = (props) => {
             type="text"
             name="content"
             value={inputs.content || ""}
-            onChange={handleChange}
+            onChange={changeInput}
           />
         </label><br />
         <label>Author Name:&nbsp;
@@ -83,21 +82,21 @@ export const Page = (props) => {
             type="text"
             name="name"
             value={inputs.name || ""}
-            onChange={handleChange}
+            onChange={changeInput}
           />
         </label><br /><label>Author Email:&nbsp;
           <input
             type="text"
             name="email"
             value={inputs.email || ""}
-            onChange={handleChange}
+            onChange={changeInput}
           />
         </label><br /><label>Tags (seperated by space):&nbsp;
           <input
             type="text"
             name="tags"
             value={inputs.tags || ""}
-            onChange={handleChange}
+            onChange={changeInput}
           />
         </label><br />
         <input type="submit" />
