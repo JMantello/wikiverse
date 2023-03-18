@@ -11,7 +11,7 @@ export const Page = (props) => {
   } = props
 
   if (view === "Home") {
-    return <div className="pageTitle" onClick={showDetails}>
+    return <div className="pageTitleClickable" onClick={showDetails}>
       <h3>{page.title}</h3>
     </div>
   }
@@ -27,8 +27,10 @@ export const Page = (props) => {
         ))}
       </p>
       <p>Date Created: {new Date(page.createdAt).toLocaleDateString()}</p>
-      <button onClick={backToHome}>Back</button>
-      <button onClick={deletePage}>Delete Page</button>
+      <span className="buttons">
+        <button onClick={backToHome}>Back</button>
+        <button onClick={deletePage}>Delete Page</button>
+      </span>
     </div>
   }
 

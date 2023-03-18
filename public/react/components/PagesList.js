@@ -63,8 +63,12 @@ export const PagesList = ({ view, setView }) => {
 
 	if (view === "Home") {
 		return <div id="pageList">
-			{pages.map((page) => (pageComponent(page)))}
-			<button onClick={() => setView("Add")}>Add Page</button>
+			<ol>
+				{pages.map((page) => (<li>{pageComponent(page)}</li>))}
+			</ol>
+			<span className="buttons">
+				<button onClick={() => setView("Add")}>Add Page</button>
+			</span>
 		</div>
 	}
 
