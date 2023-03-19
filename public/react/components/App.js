@@ -5,15 +5,11 @@ import { PagesList } from './PagesList';
 import apiURL from '../api';
 
 export const App = () => {
-	// WikiPages
-	// Views: home, details
-	const [view, setView] = useState("Home")
-
 	return (
 		<main>
 			<h1>WikiVerse</h1>
-			<h2>An interesting 📚</h2>
-			<PagesList view={view} setView={setView} />
+			<h2 className='underline'>An interesting 📚</h2>
+			<PagesList />
 		</main>
 	)
 }

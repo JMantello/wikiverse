@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Page } from './Page';
 import apiURL from '../api';
 
-export const PagesList = ({ view, setView }) => {
+export const PagesList = () => {
+	// States
+	const [view, setView] = useState("Home")
 	const [pages, setPages] = useState([])
 	const [selectedPage, setSelectedPage] = useState(null)
 
+	// On-load
 	async function fetchPages() {
 		try {
 			const response = await fetch(`${apiURL}/wiki`);
@@ -20,6 +23,7 @@ export const PagesList = ({ view, setView }) => {
 		fetchPages()
 	}, [])
 
+	// Functions
 	function pageComponent(page) {
 		return <Page
 			page={page}
@@ -51,31 +55,32 @@ export const PagesList = ({ view, setView }) => {
 
 	async function deletePage(page) {
 		try {
+			if (!confirm("Confirm delete?"))
+				return
 			const res = await fetch(`${apiURL}/wiki/${page.slug}`, {
 				method: "DELETE",
 			})
-			console.log("deleted\n", res)
 			backToHome()
 		} catch (err) {
 			console.log(`Error deleting page: ${page.slug}\n`, err)
 		}
 	}
 
+	// Views
 	if (view === "Home") {
 		return <div id="pageList">
 			<ol>
 				{pages.map((page) => (<li>{pageComponent(page)}</li>))}
 			</ol>
-			<span className="buttons">
+			<div className="buttons">
 				<button onClick={() => setView("Add")}>Add Page</button>
-			</span>
+			</div>
 		</div>
 	}
 
 	if (view === "Details")
 		return pageComponent(selectedPage)
 
-	if (view === "Add") {
+	if (view === "Add")
 		return pageComponent()
-	}
 } 

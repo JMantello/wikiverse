@@ -21,19 +21,20 @@ export const Page = (props) => {
       <h3>Title: {page.title}</h3>
       <p>Author: {page.author.name}</p>
       <p>Content: {page.content}</p>
-      <p id="tags"> Tags:
+      <p id="tags">Tags:
         {page.tags.map(t => (
-          <span> {t.name} </span>
+          <span className='pageTag'>&nbsp;{t.name}</span>
         ))}
       </p>
       <p>Date Created: {new Date(page.createdAt).toLocaleDateString()}</p>
-      <span className="buttons">
+      <div className="buttons">
         <button onClick={backToHome}>Back</button>
         <button onClick={deletePage}>Delete Page</button>
-      </span>
+      </div>
     </div>
   }
 
+  // Add Page form
   const [inputs, setInputs] = useState({})
 
   const changeInput = (e) => {
@@ -61,7 +62,7 @@ export const Page = (props) => {
 
   if (view === "Add") {
     return <>
-      <h2>Add a Page</h2>
+      <h3>Add a Page</h3>
       <form id="addPageForm" onSubmit={postPage}>
         <label>Title:&nbsp;
           <input
@@ -101,7 +102,10 @@ export const Page = (props) => {
             onChange={changeInput}
           />
         </label><br />
-        <input type="submit" />
+        <div className='buttons'>
+          <button onClick={backToHome}>Back</button>
+          <button type="submit">Submit</button>
+        </div>
       </form>
     </>
   }

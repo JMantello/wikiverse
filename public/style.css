@@ -11,15 +11,13 @@ main {
   margin: auto;
 }
 
-h2 {
+.underline {
   border-bottom: 2px solid black;
+  margin-bottom: 20px;
 }
 
 h2,
-h3 {
-  padding-bottom: 5px;
-}
-
+h3,
 p {
   padding-bottom: 5px;
 }
@@ -38,10 +36,6 @@ button {
   cursor: pointer;
 }
 
-#pageList {
-  padding-top: 15px;
-}
-
 .buttons {
   display: flex;
   padding: 15px;
@@ -50,6 +44,5 @@ button {
 }
 
 #pageDetails {
-  padding: 0 5%;
-  padding-top: 15px;
+  padding-left: 30px;
 }
